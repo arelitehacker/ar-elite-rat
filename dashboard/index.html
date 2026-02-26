@@ -22,21 +22,22 @@
 
     <script src="../js/config.js"></script>
     <script>
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // Har user ka apna data load karna
-                db.ref('users/' + user.uid + '/targets').on('value', (snap) => {
-                    const data = snap.val();
-                    let html = "";
-                    for(let id in data) {
-                        html += `<div style="border:1px solid #00ff41; padding:15px; background:#111;">
-                                    <h3>Device: ${data[id].model}</h3>
-                                    <p>IP: ${data[id].ip}</p>
-                                    <p>Last Seen: ${data[id].time}</p>
-                                 </div>`;
-                    }
-                    document.getElementById('target-container').innerHTML = html || "No targets found.";
-                });
+       auth.onAuthStateChanged((user) => {
+    if (user) {
+        // cPanel ko batana ke user aa gaya hai
+        let formData = new FormData();
+        formData.append('uid', user.uid);
+
+        fetch('../core/init.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(res => console.log("System Status:", res.status));
+
+        // Baqi Firebase logic jo pehle di thi...
+    }
+});
             } else {
                 window.location.href = "../index.html";
             }
