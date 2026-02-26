@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AR-ELITE | SECURE ACCESS</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <div class="login-box">
+        <h1>🔱 AR-ELITE HUB</h1>
+        <p>SYSTEM AUTHORIZATION REQUIRED</p>
+        
+        <input type="text" id="phone" placeholder="+923XXXXXXXXX">
+        <div id="recaptcha-container"></div>
+        <button id="send-btn" onclick="sendOTP()">REQUEST OTP</button>
+
+        <div id="otp-area" style="display:none;">
+            <input type="text" id="otp" placeholder="ENTER 6-DIGIT CODE">
+            <button onclick="verifyOTP()">ACCESS DASHBOARD</button>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
