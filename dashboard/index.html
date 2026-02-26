@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AR-ELITE | DASHBOARD</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+</head>
+<body>
+    <div style="width: 90%; max-width: 1200px;">
+        <header style="display: flex; justify-content: space-between; border-bottom: 1px solid #00ff41; padding-bottom: 10px;">
+            <h2>🔱 TARGET MONITOR</h2>
+            <button onclick="auth.signOut()" style="width: auto;">LOGOUT</button>
+        </header>
+        
+        <div id="target-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 30px;">
+            <p>Scanning for active signals...</p>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script>
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Har user ka apna data load karna
+                db.ref('users/' + user.uid + '/targets').on('value', (snap) => {
+                    const data = snap.val();
+                    let html = "";
+                    for(let id in data) {
+                        html += `<div style="border:1px solid #00ff41; padding:15px; background:#111;">
+                                    <h3>Device: ${data[id].model}</h3>
+                                    <p>IP: ${data[id].ip}</p>
+                                    <p>Last Seen: ${data[id].time}</p>
+                                 </div>`;
+                    }
+                    document.getElementById('target-container').innerHTML = html || "No targets found.";
+                });
+            } else {
+                window.location.href = "../index.html";
+            }
+        });
+    </script>
+</body>
+</html>
